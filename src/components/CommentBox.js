@@ -1,25 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import requireAuth from './requireAuth';
 
 class CommentBox extends React.Component {
   state = {
     comment: ''
   };
-
-  componentDidMount() {
-    this.shouldNavigateAway()
-  }
-
-  componentDidUpdate() {
-    this.shouldNavigateAway()
-  }
-
-  shouldNavigateAway() {
-    if (!this.props.auth) {
-      this.props.history.push('/')
-    }
-  }
 
   handleChange = event => {
     this.setState({ comment: event.target.value });
@@ -43,17 +30,15 @@ class CommentBox extends React.Component {
             <button>Submit Comment</button>
           </div>
         </form>
-        <button className="fetch-comments" onClick={this.props.fetchComments}>Fetch Comments</button>
+        <button className="fetch-comments" onClick={this.props.fetchComments}>
+          Fetch Comments
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return { auth: state.auth}
-}
-
 export default connect(
-  mapStateToProps,
+  null,
   actions
-)(CommentBox);
+)(requireAuth(CommentBox));
